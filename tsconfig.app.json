@@ -29,7 +29,12 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "checkJs": true,
-    "strict": true
+    "strict": true,
+
+    /* Aliases */
+    "paths": {
+      "~/*": ["./src/*"]
+    }
   },
 
   "include": ["src"]
