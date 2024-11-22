@@ -2,6 +2,7 @@ import { cn } from "~/libs/tailwind/utils";
 
 import { ProfitCalculatorModelProvider } from "./model/profit-calculator-model-provider";
 import { ProfitTabs } from "./profit-tabs";
+import { Tokens } from "./tokens";
 
 interface IProfitCalculatorProps {
   className?: string;
@@ -10,8 +11,11 @@ interface IProfitCalculatorProps {
 export function ProfitCalculator({ className }: IProfitCalculatorProps) {
   return (
     <ProfitCalculatorModelProvider>
-      <div className={cn(className)}>
-        <ProfitTabs />
+      <div className={cn("pt-5", className)}>
+        <div className="px-5">
+          <ProfitTabs className="mb-[30px]" />
+          <Tokens className="mb-10" />
+        </div>
       </div>
     </ProfitCalculatorModelProvider>
   );
