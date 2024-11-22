@@ -60,6 +60,26 @@ export default tseslint.config(
 
       // Perfectionist
       "perfectionist/sort-modules": "off",
+
+      "perfectionist/sort-imports": [
+        "error",
+        {
+          type: "line-length",
+          order: "desc",
+
+          groups: [
+            "type",
+            ["builtin", "external"],
+            "internal-type",
+            "internal",
+            ["parent-type", "sibling-type", "index-type"],
+            ["parent", "sibling", "index"],
+            "object",
+            "unknown",
+            "style",
+          ],
+        },
+      ],
     },
   },
 );
