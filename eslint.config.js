@@ -2,6 +2,7 @@ import eslintConfigPrettier from "eslint-config-prettier";
 import perfectionist from "eslint-plugin-perfectionist";
 import reactRefresh from "eslint-plugin-react-refresh";
 import reactHooks from "eslint-plugin-react-hooks";
+import reatom from "@reatom/eslint-plugin";
 import tseslint from "typescript-eslint";
 import react from "eslint-plugin-react";
 import eslint from "@eslint/js";
@@ -15,6 +16,7 @@ export default tseslint.config(
   {
     extends: [
       eslint.configs.recommended,
+      reatom.configs.recommended,
       ...tseslint.configs.strictTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
       perfectionist.configs["recommended-line-length"],
@@ -38,6 +40,7 @@ export default tseslint.config(
     plugins: {
       "react-refresh": reactRefresh,
       "react-hooks": reactHooks,
+      "@reatom": reatom,
       react,
     },
 
