@@ -6,6 +6,7 @@
   * {
     @apply border-border;
   }
+
   body,
   html {
     @apply bg-background text-foreground;
@@ -14,8 +15,8 @@
   @font-face {
     font-family: "Gilroy";
     src:
-      url(/assets/fonts/gilroy-medium.woff2) format("woff2"),
-      url(/assets/fonts/gilroy-medium.woff) format("woff");
+      url(/fonts/gilroy-medium.woff2) format("woff2"),
+      url(/fonts/gilroy-medium.woff) format("woff");
     font-style: normal;
     font-weight: 500;
   }
@@ -23,8 +24,8 @@
   @font-face {
     font-family: "Gilroy";
     src:
-      url(/assets/fonts/gilroy-semibold.woff2) format("woff2"),
-      url(/assets/fonts/gilroy-semibold.woff) format("woff");
+      url(/fonts/gilroy-semibold.woff2) format("woff2"),
+      url(/fonts/gilroy-semibold.woff) format("woff");
     font-style: normal;
     font-weight: 600;
   }
@@ -32,28 +33,10 @@
   @font-face {
     font-family: "Gilroy";
     src:
-      url(/assets/fonts/gilroy-extrabold.woff2) format("woff2"),
-      url(/assets/fonts/gilroy-extrabold.woff) format("woff");
+      url(/fonts/gilroy-extrabold.woff2) format("woff2"),
+      url(/fonts/gilroy-extrabold.woff) format("woff");
     font-style: normal;
     font-weight: 800;
-  }
-
-  @font-face {
-    font-family: "Hanson";
-    src:
-      url(/assets/fonts/hanson-bold.woff2) format("woff2"),
-      url(/assets/fonts/hanson-bold.woff) format("woff");
-    font-style: normal;
-    font-weight: 700;
-  }
-
-  @font-face {
-    font-family: "Phonk Sans";
-    src:
-      url(/assets/fonts/phonksans-black.woff2) format("woff2"),
-      url(/assets/fonts/phonksans-black.woff) format("woff");
-    font-style: normal;
-    font-weight: 700;
   }
 
   :root {
@@ -263,6 +246,7 @@
     --radius: 26px;
     --radius-lg: 40px;
   }
+
   .twa,
   :root[class~="twa"] {
     --hero-background: radial-gradient(25.28% 59.69% at 96.14% 0%, #000 0%, rgba(0, 0, 0, 0) 100%),
