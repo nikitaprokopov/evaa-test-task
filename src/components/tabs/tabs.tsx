@@ -7,17 +7,17 @@ import { TTabTriggerVariants, tabTriggerVariants, TTabListVariants, tabListVaria
 
 export const Tabs = TabsPrimitive.Root;
 
-interface TabListProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.List>, TTabListVariants {}
+interface ITabListProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.List>, TTabListVariants {}
 
-export const TabsList = forwardRef<ElementRef<typeof TabsPrimitive.List>, TabListProps>(
+export const TabsList = forwardRef<ElementRef<typeof TabsPrimitive.List>, ITabListProps>(
   ({ className, size, ...props }, ref) => (
     <TabsPrimitive.List className={cn(tabListVariants({ size }), className)} ref={ref} {...props} />
   ),
 );
 
-interface TabTriggerProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>, TTabTriggerVariants {}
+interface ITabTriggerProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>, TTabTriggerVariants {}
 
-export const TabsTrigger = forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, TabTriggerProps>(
+export const TabsTrigger = forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, ITabTriggerProps>(
   ({ className, size, ...props }, ref) => (
     <TabsPrimitive.Trigger className={cn(tabTriggerVariants({ size }), className)} ref={ref} {...props} />
   ),
