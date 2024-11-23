@@ -10,7 +10,7 @@ interface ITokenIconProps {
   assetName: (typeof SUPPORTED_ASSET_NAMES)[keyof typeof SUPPORTED_ASSET_NAMES];
 }
 
-const ICON_CLASSES = "h-8 w-8";
+const ICON_CLASSES = "size-8";
 
 export function TokenIcon({ assetName }: ITokenIconProps) {
   switch (assetName) {

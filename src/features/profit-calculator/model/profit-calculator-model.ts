@@ -1,5 +1,5 @@
+import { reatomBoolean, reatomString, reatomEnum } from "@reatom/framework";
 import { createContext, useContext } from "react";
-import { reatomEnum } from "@reatom/framework";
 
 import { SUPPORTED_ASSETS } from "./profit-calculator-assets";
 
@@ -10,6 +10,8 @@ export const TABS_VALUES = {
 
 export function createModel() {
   const activeTabValueAtom = reatomEnum([TABS_VALUES.SUPPLY, TABS_VALUES.BORROW], "activeTabValueAtom");
+  const isCurrentAmountInUsdAtom = reatomBoolean(false, "isCurrentAmountInUsdAtom");
+  const amountInputValueAtom = reatomString("", "amountInputValueAtom");
 
   const activeTokenNameAtom = reatomEnum(
     SUPPORTED_ASSETS.map((asset) => asset.name),
@@ -17,6 +19,8 @@ export function createModel() {
   );
 
   return {
+    isCurrentAmountInUsdAtom,
+    amountInputValueAtom,
     activeTokenNameAtom,
     activeTabValueAtom,
   };

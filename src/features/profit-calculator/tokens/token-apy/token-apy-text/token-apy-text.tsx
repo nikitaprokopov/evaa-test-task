@@ -20,5 +20,5 @@ export const TokenApyText = reatomComponent(({ ctx }) => {
     }
   }
 
-  return <span className="text-tertiary">{getText()}</span>;
+  return <span className="text-white opacity-50">{getText()}</span>;
 }, "TokenApyText");

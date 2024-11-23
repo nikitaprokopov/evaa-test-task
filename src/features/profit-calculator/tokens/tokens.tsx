@@ -8,7 +8,7 @@ import { SUPPORTED_ASSETS } from "../model/profit-calculator-assets";
 import { TokenIcon } from "./token-icon";
 import { TokenApy } from "./token-apy";
 
-const BUTTON_OUTLINE_CLASSES = "border-[rgba(255,255,255,0.15)]";
+const BUTTON_OUTLINE_CLASSES = "border-[rgba(255,255,255,0.15)] border bg-transparent";
 const BUTTON_CLASSES = "h-14 font-medium text-lg rounded-sm items-center gap-[10px]";
 
 interface ITokensProps {
@@ -24,7 +24,6 @@ export const Tokens = reatomComponent<ITokensProps>(({ className, ctx }) => {
       <Button
         className={cn(BUTTON_CLASSES, asset.name !== activeTokenName && BUTTON_OUTLINE_CLASSES)}
         onClick={() => profitCalculatorModel.activeTokenNameAtom(ctx, asset.name)}
-        variant={asset.name === activeTokenName ? "default" : "outline"}
         type="button"
       >
         <TokenIcon assetName={asset.name} /> {asset.name}
