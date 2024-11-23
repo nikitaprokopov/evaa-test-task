@@ -56,6 +56,7 @@ export default tseslint.config(
       // React
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       "react/no-unescaped-entities": 0,
+      "react/prop-types": 0,
 
       // TS
       "@typescript-eslint/array-type": ["error", { default: "array-simple", readonly: "array-simple" }],
