@@ -2,20 +2,12 @@ import { TESTNET_POOL_CONFIG } from "@evaafi/sdk";
 import { z } from "zod";
 
 export const SUPPORTED_ASSET_NAMES = {
-  JUSDC: "jUSDC",
   STTON: "stTON",
-  JUSDT: "jUSDT",
   TON: "TON",
 } as const;
 
 const ZAssetSchema = z.object({
-  name: z.union([
-    z.literal(SUPPORTED_ASSET_NAMES.JUSDC),
-    z.literal(SUPPORTED_ASSET_NAMES.STTON),
-    z.literal(SUPPORTED_ASSET_NAMES.JUSDT),
-    z.literal(SUPPORTED_ASSET_NAMES.TON),
-  ]),
-
+  name: z.union([z.literal(SUPPORTED_ASSET_NAMES.STTON), z.literal(SUPPORTED_ASSET_NAMES.TON)]),
   assetId: z.bigint(),
 });
 

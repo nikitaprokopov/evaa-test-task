@@ -11,16 +11,25 @@ interface ICurrencyEquivalentProps {
 export const CurrencyEquivalent = reatomComponent<ICurrencyEquivalentProps>(({ className, ctx }) => {
   const profitCalculatorModel = useProfitCalculatorModel();
 
-  const isCurrentAmountInUsd = ctx.spy(profitCalculatorModel.isCurrentAmountInUsdAtom);
-  const activeTokenName = ctx.spy(profitCalculatorModel.activeTokenNameAtom);
+  const isAmountInputValueInUsd = ctx.spy(profitCalculatorModel.isAmountInputValueInUsdAtom);
+  const convertedAmount = ctx.spy(profitCalculatorModel.convertedAmountAtom);
+  const activeToken = ctx.spy(profitCalculatorModel.activeTokenAtom);
+
+  if (convertedAmount === null) {
+    return <div className={cn("opacity-0 transition-opacity", className)} />;
+  }
 
   const getText = () => {
-    if (isCurrentAmountInUsd) {
-      return `~0.00 ${activeTokenName}`;
+    if (isAmountInputValueInUsd) {
+      return `~${convertedAmount.toFixed(2)} ${activeToken.name}`;
     }
 
-    return "~$0.00";
+    return `~$${convertedAmount.toFixed(2)}`;
   };
 
-  return <p className={cn("pointer-events-none text-sm text-white opacity-50", className)}>{getText()}</p>;
+  return (
+    <div className={cn("opacity-100 transition-opacity", className)}>
+      <p className="pointer-events-none text-sm text-white opacity-50">{getText()}</p>
+    </div>
+  );
 }, "CurrencyEquivalent");

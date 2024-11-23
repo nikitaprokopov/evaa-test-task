@@ -13,12 +13,12 @@ interface ICurrencyToggleProps {
 export const CurrencyToggle = reatomComponent<ICurrencyToggleProps>(({ className, ctx }) => {
   const profitCalculatorModel = useProfitCalculatorModel();
 
-  const isCurrentAmountInUsd = ctx.spy(profitCalculatorModel.isCurrentAmountInUsdAtom);
-  const activeTokenName = ctx.spy(profitCalculatorModel.activeTokenNameAtom);
+  const isAmountInputValueInUsd = ctx.spy(profitCalculatorModel.isAmountInputValueInUsdAtom);
+  const activeToken = ctx.spy(profitCalculatorModel.activeTokenAtom);
 
   const getCurrencyText = () => {
-    if (isCurrentAmountInUsd) {
-      return activeTokenName;
+    if (isAmountInputValueInUsd) {
+      return activeToken.name;
     }
 
     return "USD";
@@ -27,7 +27,7 @@ export const CurrencyToggle = reatomComponent<ICurrencyToggleProps>(({ className
   return (
     <Button
       className={cn("h-fit items-center gap-2 bg-[rgba(255,255,255,0.1)] px-3 text-sm", className)}
-      onClick={() => profitCalculatorModel.isCurrentAmountInUsdAtom.toggle(ctx)}
+      onClick={() => profitCalculatorModel.onCurrencyToggleAction(ctx)}
       type="button"
     >
       <ArrowsIcon className="size-[18px] text-white opacity-50" />

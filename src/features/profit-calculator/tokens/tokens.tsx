@@ -17,13 +17,13 @@ interface ITokensProps {
 
 export const Tokens = reatomComponent<ITokensProps>(({ className, ctx }) => {
   const profitCalculatorModel = useProfitCalculatorModel();
-  const activeTokenName = ctx.spy(profitCalculatorModel.activeTokenNameAtom);
+  const activeToken = ctx.spy(profitCalculatorModel.activeTokenAtom);
 
   const tokens = SUPPORTED_ASSETS.map((asset) => (
     <div className="grid gap-[10px]" key={asset.name}>
       <Button
-        className={cn(BUTTON_CLASSES, asset.name !== activeTokenName && BUTTON_OUTLINE_CLASSES)}
-        onClick={() => profitCalculatorModel.activeTokenNameAtom(ctx, asset.name)}
+        className={cn(BUTTON_CLASSES, asset.name !== activeToken.name && BUTTON_OUTLINE_CLASSES)}
+        onClick={() => profitCalculatorModel.activeTokenAtom(ctx, asset)}
         type="button"
       >
         <TokenIcon assetName={asset.name} /> {asset.name}

@@ -9,12 +9,6 @@ export function createModel() {
     await ctx.schedule(() => evaaContract.getSync());
   }, "syncEvaaResource").pipe(withStatusesAtom(), withErrorAtom());
 
-  const priceDataResource = reatomResource(async (ctx) => {
-    const syncEvaaPromise = ctx.spy(syncEvaaResource.promiseAtom);
-    await ctx.schedule(() => syncEvaaPromise);
-    return ctx.schedule(() => getPrices());
-  }, "priceDataResource").pipe(withDataAtom(null));
-
   const masterDataResource = reatomResource(async (ctx) => {
     const syncEvaaPromise = ctx.spy(syncEvaaResource.promiseAtom);
     await ctx.schedule(() => syncEvaaPromise);
@@ -25,6 +19,12 @@ export function createModel() {
 
     return evaaContract.data;
   }, "masterDataResource").pipe(withDataAtom(null), withStatusesAtom());
+
+  const priceDataResource = reatomResource(async (ctx) => {
+    const syncEvaaPromise = ctx.spy(syncEvaaResource.promiseAtom);
+    await ctx.schedule(() => syncEvaaPromise);
+    return ctx.schedule(() => getPrices());
+  }, "priceDataResource").pipe(withDataAtom(null));
 
   return {
     masterDataResource,
