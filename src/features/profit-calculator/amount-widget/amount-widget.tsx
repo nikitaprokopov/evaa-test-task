@@ -1,10 +1,16 @@
+import { cn } from "~/libs/tailwind/utils";
+
 import { CurrencyEquivalent } from "./currency-equivalent";
 import { CurrencyToggle } from "./currency-toggle";
 import { AmountInput } from "./amount-input";
 
-export function AmountWidget() {
+interface IAmountWidgetProps {
+  className?: string;
+}
+
+export function AmountWidget({ className }: IAmountWidgetProps) {
   return (
-    <div className="relative flex items-center">
+    <div className={cn("relative flex items-center", className)}>
       <CurrencyEquivalent className="absolute bottom-3 left-6" />
       <CurrencyToggle className="absolute right-6" />
       <AmountInput />
