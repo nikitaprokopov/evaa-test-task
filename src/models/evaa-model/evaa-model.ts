@@ -29,7 +29,6 @@ export function createModel() {
   return {
     masterDataResource,
     priceDataResource,
-    syncEvaaResource,
   };
 }
 
