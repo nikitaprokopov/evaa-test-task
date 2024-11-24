@@ -1,3 +1,5 @@
+import { cn } from "~/libs/tailwind/utils";
+
 import { ProfitCalculatorModelProvider } from "./model/profit-calculator-model-provider";
 import { AmountWidget } from "./amount-widget";
 import { ProfitWidget } from "./profit-widget";
@@ -5,10 +7,14 @@ import { ProfitTabs } from "./profit-tabs";
 import { LoanTerms } from "./loan-terms";
 import { Tokens } from "./tokens";
 
-export function ProfitCalculator() {
+interface IProfitCalculatorProps {
+  className?: string;
+}
+
+export function ProfitCalculator({ className }: IProfitCalculatorProps) {
   return (
     <ProfitCalculatorModelProvider>
-      <div className="noise rounded-[36px] bg-master pt-5">
+      <div className={cn("bg-master pt-5 noise", className)}>
         <div className="mb-10 px-5">
           <ProfitTabs className="mb-[30px]" />
           <Tokens className="mb-10" />

@@ -6,8 +6,8 @@ export function App() {
   return (
     <ReatomProvider>
       <EvaaModelProvider>
-        <div className="mx-auto h-screen max-w-[390px]">
-          <ProfitCalculator />
+        <div className="mx-auto h-screen max-w-lg">
+          <ProfitCalculator className="h-full" />
         </div>
       </EvaaModelProvider>
     </ReatomProvider>
