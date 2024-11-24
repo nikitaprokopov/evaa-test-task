@@ -1,4 +1,4 @@
-import { mockTelegramEnv, closingBehavior, swipeBehavior, isTMA, init } from "@telegram-apps/sdk-react";
+import { mockTelegramEnv, closingBehavior, swipeBehavior, miniApp, isTMA, init } from "@telegram-apps/sdk-react";
 
 function enableConfirmationOnClose() {
   if (closingBehavior.mount.isAvailable()) {
@@ -20,6 +20,20 @@ export function disableVerticalSwipe() {
   }
 }
 
+function enableMiniApp() {
+  if (miniApp.mount.isAvailable()) {
+    miniApp.mount();
+
+    if (miniApp.setHeaderColor.supports.rgb()) {
+      miniApp.setHeaderColor("#000000");
+    }
+
+    if (miniApp.setBackgroundColor.isAvailable()) {
+      miniApp.setBackgroundColor("#000000");
+    }
+  }
+}
+
 export async function initTelegramApp() {
   const isTma = await isTMA();
 
@@ -35,4 +49,5 @@ export async function initTelegramApp() {
 
   enableConfirmationOnClose();
   disableVerticalSwipe();
+  enableMiniApp();
 }
