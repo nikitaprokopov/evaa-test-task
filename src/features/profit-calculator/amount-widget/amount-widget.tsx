@@ -12,8 +12,8 @@ export function AmountWidget({ className }: IAmountWidgetProps) {
   return (
     <div className={cn("relative flex items-center", className)}>
       <CurrencyEquivalent className="absolute bottom-3 left-6" />
-      <CurrencyToggle className="absolute right-6" />
       <AmountInput />
+      <CurrencyToggle className="absolute right-6" />
     </div>
   );
 }

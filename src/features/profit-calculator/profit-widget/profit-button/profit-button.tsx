@@ -40,7 +40,10 @@ export const ProfitButton = reatomComponent(({ ctx }) => {
   };
 
   return (
-    <Button className="pointer-events-none w-[166px] gap-[10px] bg-white py-[10px] text-base text-black opacity-70">
+    <Button
+      className="pointer-events-none w-[166px] gap-[10px] bg-white py-[10px] text-base text-black opacity-70"
+      tabIndex={-1}
+    >
       {renderIcon()} <span>{getText()}</span>
     </Button>
   );

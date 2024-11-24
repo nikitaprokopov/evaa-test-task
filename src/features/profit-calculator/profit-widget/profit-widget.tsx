@@ -4,7 +4,7 @@ import { ProfitInUsd } from "./profit-in-usd";
 
 export function ProfitWidget() {
   return (
-    <div className="flex items-end rounded-3xl px-5 py-7">
+    <div className="noise flex items-end rounded-3xl bg-hero px-5 py-7">
       <div className="mr-auto">
         <p className="mb-1 font-medium text-white">Potential Return</p>
 

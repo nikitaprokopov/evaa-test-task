@@ -1,4 +1,33 @@
 import tailwindAnimatePlugin from "tailwindcss-animate";
+import plugin from "tailwindcss/plugin";
+
+function noisePlugin() {
+  return plugin(({ addUtilities }) => {
+    addUtilities({
+      ".noise": {
+        position: "relative",
+      },
+
+      ".noise::after": {
+        backgroundImage: "url('/images/noise.png')",
+        backgroundRepeat: "repeat",
+        backgroundSize: "128px",
+        mixBlendMode: "overlay",
+        borderRadius: "inherit",
+        position: "absolute",
+        opacity: "0.7",
+        content: '""',
+        zIndex: "1",
+        inset: "0",
+      },
+
+      ".noise > *": {
+        position: "relative",
+        zIndex: "2",
+      },
+    });
+  });
+}
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -170,5 +199,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindAnimatePlugin],
+  plugins: [tailwindAnimatePlugin, noisePlugin()],
 };
