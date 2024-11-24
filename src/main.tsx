@@ -1,8 +1,12 @@
 import { createRoot } from "react-dom/client";
 
-import { App } from "./app";
+import { initTelegramApp } from "./libs/telegram-app";
 
 import "./index.css";
+
+import { App } from "./app";
+
+await initTelegramApp();
 
 const root = document.getElementById("root");
 

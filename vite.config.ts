@@ -10,8 +10,9 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ["react-dom", "react"],
-          buffer: ["buffer"],
           zod: ["zod"],
+
+          telegram: ["@telegram-apps/sdk-react"],
 
           other: ["class-variance-authority", "tailwind-merge", "clsx"],
           radix: ["@radix-ui/react-slot", "@radix-ui/react-tabs"],
@@ -30,6 +31,10 @@ export default defineConfig({
     alias: {
       "~": path.resolve(__dirname, "./src"),
     },
+  },
+
+  server: {
+    host: true,
   },
 
   plugins: [react(), svgr(), nodePolyfills({ include: ["buffer"], globals: { Buffer: true } })],
