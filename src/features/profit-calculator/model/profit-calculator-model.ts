@@ -1,9 +1,10 @@
 import { reatomBoolean, reatomString, reatomEnum, action, atom } from "@reatom/framework";
 import { createContext, useContext } from "react";
 
-import { convertTonToUsd, convertUsdToTon } from "~/features/profit-calculator/model/profit-calculator-math";
 import { useEvaaModel } from "~/models/evaa-model/evaa-model";
+import { exhaustiveCheck } from "~/utils/exhaustive-check";
 
+import { getTokenMonthlyPotentialReturn, convertTokenToUsd, convertUsdToToken } from "./profit-calculator-math";
 import { SUPPORTED_ASSETS } from "./profit-calculator-assets";
 
 export const TABS_VALUES = {
@@ -34,33 +35,99 @@ export function createModel({ evaaModel }: ICreateModel) {
   const convertedAmountAtom = atom((ctx) => {
     const masterData = ctx.spy(evaaModel.masterDataResource.dataAtom);
     const priceData = ctx.spy(evaaModel.priceDataResource.dataAtom);
-    const amountInputValue = ctx.spy(amountInputValueAtom);
-    const activeToken = ctx.spy(activeTokenAtom);
 
     if (!masterData || !priceData) {
       return null;
     }
 
+    const amountInputValue = ctx.spy(amountInputValueAtom);
+    const activeToken = ctx.spy(activeTokenAtom);
+
     if (ctx.spy(isAmountInputValueInUsdAtom)) {
-      const ton = convertUsdToTon({
+      const token = convertUsdToToken({
         assetId: activeToken.assetId,
         usd: amountInputValue,
         masterData,
         priceData,
       });
 
-      return ton;
+      return token;
     }
 
-    const usd = convertTonToUsd({
+    const usd = convertTokenToUsd({
       assetId: activeToken.assetId,
-      ton: amountInputValue,
+      tokenValue: amountInputValue,
       masterData,
       priceData,
     });
 
     return usd;
   }, "convertedAmountAtom");
+
+  const apyFromActiveTabAndTokenAtom = atom((ctx) => {
+    const masterData = ctx.spy(evaaModel.masterDataResource.dataAtom);
+    const activeToken = ctx.spy(activeTokenAtom);
+
+    const assetData = masterData?.assetsData.get(activeToken.assetId);
+
+    if (!assetData) {
+      return null;
+    }
+
+    const activeTabValue = ctx.spy(activeTabValueAtom);
+
+    switch (activeTabValue) {
+      case TABS_VALUES.SUPPLY:
+        return assetData.supplyApy;
+
+      case TABS_VALUES.BORROW:
+        return assetData.borrowApy;
+
+      default:
+        exhaustiveCheck(activeTabValue);
+    }
+  }, "apyFromActiveTabAndTokenAtom");
+
+  const potentialTokenReturnAmountAtom = atom((ctx) => {
+    const apyFromActiveTabAndToken = ctx.spy(apyFromActiveTabAndTokenAtom);
+    const amountInputValue = ctx.spy(amountInputValueAtom);
+    const convertedAmount = ctx.spy(convertedAmountAtom);
+
+    if (apyFromActiveTabAndToken === null) {
+      return null;
+    }
+
+    if (ctx.spy(isAmountInputValueInUsdAtom) && convertedAmount) {
+      return getTokenMonthlyPotentialReturn({
+        apy: apyFromActiveTabAndToken,
+        amount: convertedAmount,
+      });
+    }
+
+    return getTokenMonthlyPotentialReturn({
+      amount: Number(amountInputValue),
+      apy: apyFromActiveTabAndToken,
+    });
+  }, "potentialTokenReturnAmountAtom");
+
+  const potentialReturnAmountInUsdAtom = atom((ctx) => {
+    const potentialTokenReturnAmount = ctx.spy(potentialTokenReturnAmountAtom);
+    const masterData = ctx.spy(evaaModel.masterDataResource.dataAtom);
+    const priceData = ctx.spy(evaaModel.priceDataResource.dataAtom);
+
+    if (!masterData || !priceData || potentialTokenReturnAmount === null) {
+      return null;
+    }
+
+    const usd = convertTokenToUsd({
+      tokenValue: String(potentialTokenReturnAmount),
+      assetId: ctx.spy(activeTokenAtom).assetId,
+      masterData,
+      priceData,
+    });
+
+    return usd;
+  }, "potentialReturnAmountInUsdAtom");
 
   const onCurrencyToggleAction = action((ctx) => {
     const amountInputValue = ctx.get(amountInputValueAtom);
@@ -74,6 +141,8 @@ export function createModel({ evaaModel }: ICreateModel) {
   }, "onCurrencyToggleAction");
 
   return {
+    potentialReturnAmountInUsdAtom,
+    potentialTokenReturnAmountAtom,
     isAmountInputValueInUsdAtom,
     onCurrencyToggleAction,
     amountInputValueAtom,

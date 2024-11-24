@@ -6,33 +6,54 @@ interface IGetPriceOfOneTonInUsdProps {
   assetId: bigint;
 }
 
-const getPriceOfOneTonInUsd = ({ masterData, priceData, assetId }: IGetPriceOfOneTonInUsdProps) => {
+const getPriceOfOneTokenInUsd = ({ masterData, priceData, assetId }: IGetPriceOfOneTonInUsdProps) => {
   const assetConfig = masterData.assetsConfig.get(assetId);
-  const tonPrice = priceData.dict.get(assetId);
+  const tokenPrice = priceData.dict.get(assetId);
 
-  if (!tonPrice) {
-    throw new Error("tonPrice should exist");
+  if (!tokenPrice) {
+    return null;
   }
 
   if (!assetConfig) {
-    throw new Error("assetConfig should exist");
+    return null;
   }
 
-  return Number(tonPrice) / 10 ** Number(assetConfig.decimals);
+  return Number(tokenPrice) / 10 ** Number(assetConfig.decimals);
 };
 
-interface IConvertTonToUsd extends IGetPriceOfOneTonInUsdProps {
-  ton: string;
+interface IConvertTokenToUsd extends IGetPriceOfOneTonInUsdProps {
+  tokenValue: string;
 }
 
-export const convertTonToUsd = ({ masterData, priceData, assetId, ton }: IConvertTonToUsd) => {
-  return Number(ton) * getPriceOfOneTonInUsd({ masterData, priceData, assetId });
+export const convertTokenToUsd = ({ masterData, tokenValue, priceData, assetId }: IConvertTokenToUsd) => {
+  const priceOfOneToken = getPriceOfOneTokenInUsd({ masterData, priceData, assetId });
+
+  if (priceOfOneToken === null) {
+    return null;
+  }
+
+  return Number(tokenValue) * priceOfOneToken;
 };
 
-interface IConvertUsdToTon extends IGetPriceOfOneTonInUsdProps {
+interface IConvertUsdToToken extends IGetPriceOfOneTonInUsdProps {
   usd: string;
 }
 
-export const convertUsdToTon = ({ masterData, priceData, assetId, usd }: IConvertUsdToTon) => {
-  return Number(usd) / getPriceOfOneTonInUsd({ masterData, priceData, assetId });
+export const convertUsdToToken = ({ masterData, priceData, assetId, usd }: IConvertUsdToToken) => {
+  const priceOfOneToken = getPriceOfOneTokenInUsd({ masterData, priceData, assetId });
+
+  if (priceOfOneToken === null) {
+    return null;
+  }
+
+  return Number(usd) / priceOfOneToken;
+};
+
+interface IGetMonthlyPotentialReturn {
+  amount: number;
+  apy: number;
+}
+
+export const getTokenMonthlyPotentialReturn = ({ amount, apy }: IGetMonthlyPotentialReturn) => {
+  return amount * (1 + apy / 12);
 };
