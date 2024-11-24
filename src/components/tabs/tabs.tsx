@@ -1,4 +1,5 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import { ComponentPropsWithoutRef, ElementRef, forwardRef, MouseEvent } from "react";
+import { ImpactHapticFeedbackStyle, hapticFeedback } from "@telegram-apps/sdk-react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import { cn } from "~/libs/tailwind/utils";
@@ -15,12 +16,29 @@ export const TabsList = forwardRef<ElementRef<typeof TabsPrimitive.List>, ITabLi
   ),
 );
 
-interface ITabTriggerProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>, TTabTriggerVariants {}
+interface ITabTriggerProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>, TTabTriggerVariants {
+  hapticFeedbackStyle?: ImpactHapticFeedbackStyle;
+}
 
 export const TabsTrigger = forwardRef<React.ElementRef<typeof TabsPrimitive.Trigger>, ITabTriggerProps>(
-  ({ className, size, ...props }, ref) => (
-    <TabsPrimitive.Trigger className={cn(tabTriggerVariants({ size }), className)} ref={ref} {...props} />
-  ),
+  ({ hapticFeedbackStyle = "light", className, onClick, size, ...props }, ref) => {
+    const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+      if (hapticFeedback.isSupported() && hapticFeedback.impactOccurred.isAvailable()) {
+        hapticFeedback.impactOccurred(hapticFeedbackStyle);
+      }
+
+      onClick?.(e);
+    };
+
+    return (
+      <TabsPrimitive.Trigger
+        className={cn(tabTriggerVariants({ size }), className)}
+        onClick={handleClick}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
 );
 
 export const TabsContent = forwardRef<
