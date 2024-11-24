@@ -1,4 +1,5 @@
-import { ButtonHTMLAttributes } from "react";
+import { hapticFeedback } from "@telegram-apps/sdk-react";
+import { ButtonHTMLAttributes, MouseEvent } from "react";
 import { Slot } from "@radix-ui/react-slot";
 
 import { cn } from "~/libs/tailwind/utils";
@@ -9,9 +10,18 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, TButtonV
   asChild?: boolean;
 }
 
-export function Button({ asChild = false, className, variant, size, ...props }: IButtonProps) {
+export function Button({ asChild = false, className, variant, onClick, size, ...props }: IButtonProps) {
   const Component = asChild ? Slot : "button";
-  return <Component className={cn(buttonVariants({ className, variant, size }))} {...props} />;
+
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    if (hapticFeedback.isSupported() && hapticFeedback.impactOccurred.isAvailable()) {
+      hapticFeedback.impactOccurred("medium");
+    }
+
+    onClick?.(e);
+  };
+
+  return <Component className={cn(buttonVariants({ className, variant, size }))} onClick={handleClick} {...props} />;
 }
 
 Button.displayName = "Button";
