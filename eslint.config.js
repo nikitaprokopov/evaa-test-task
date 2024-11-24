@@ -10,7 +10,7 @@ import globals from "globals";
 
 export default tseslint.config(
   {
-    ignores: ["dist", "vite.config.ts"],
+    ignores: ["dist", "vite.config.ts", "playwright.config.ts"],
   },
 
   {

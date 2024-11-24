@@ -61,6 +61,7 @@ The app should now be running at http://localhost:5173/.
 
 ## Scripts
 
+- `test:playwright` - run playwright tests.
 - `dev` - run the development server.
 - `lint` - lint code with ESLint.
 - `build` - build project.
