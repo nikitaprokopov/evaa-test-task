@@ -10,7 +10,7 @@ import globals from "globals";
 
 export default tseslint.config(
   {
-    ignores: ["dist"],
+    ignores: ["dist", "vite.config.ts"],
   },
 
   {
