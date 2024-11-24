@@ -28,7 +28,7 @@ export const CurrencyEquivalent = reatomComponent<ICurrencyEquivalentProps>(({ c
   };
 
   return (
-    <div className={cn("animate-fade-in", className)}>
+    <div className={cn("animate-fade-in", className)} data-testid="currency-equivalent">
       <p className="pointer-events-none text-sm text-white opacity-50">{getText()}</p>
     </div>
   );

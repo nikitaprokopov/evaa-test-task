@@ -28,6 +28,7 @@ export const CurrencyToggle = reatomComponent<ICurrencyToggleProps>(({ className
     <Button
       className={cn("h-fit items-center gap-2 bg-[rgba(255,255,255,0.1)] px-3 text-sm", className)}
       onClick={() => profitCalculatorModel.onCurrencyToggleAction(ctx)}
+      dataTestId="currency-toggle"
       type="button"
     >
       <ArrowsIcon className="size-[18px] text-white opacity-50" />

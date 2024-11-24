@@ -43,5 +43,9 @@ export const TokenApyNumber = reatomComponent<ITokenApyNumberProps>(({ assetId, 
     }
   };
 
-  return <span className="font-black text-white">{getText()}</span>;
+  return (
+    <span className="font-black text-white" data-testid="token-apy-number">
+      {getText()}
+    </span>
+  );
 }, "TokenApyNumber");

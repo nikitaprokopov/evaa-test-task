@@ -40,6 +40,7 @@ export const AmountInput = reatomComponent(({ ctx }) => {
     <Input
       className="h-[88px] rounded-3xl px-6 pb-7 pr-32 pt-3 text-4xl"
       placeholder={getPlaceholder()}
+      data-testid="amount-input"
       value={amountInputValue}
       onChange={handleChange}
     />

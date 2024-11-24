@@ -8,12 +8,14 @@ import { TButtonVariants, buttonVariants } from "./button-variants";
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, TButtonVariants {
   hapticFeedbackStyle?: ImpactHapticFeedbackStyle;
+  dataTestId?: string;
   asChild?: boolean;
 }
 
 export function Button({
   hapticFeedbackStyle = "light",
   asChild = false,
+  dataTestId,
   className,
   variant,
   onClick,
@@ -30,7 +32,14 @@ export function Button({
     onClick?.(e);
   };
 
-  return <Component className={cn(buttonVariants({ className, variant, size }))} onClick={handleClick} {...props} />;
+  return (
+    <Component
+      className={cn(buttonVariants({ className, variant, size }))}
+      data-testid={dataTestId}
+      onClick={handleClick}
+      {...props}
+    />
+  );
 }
 
 Button.displayName = "Button";

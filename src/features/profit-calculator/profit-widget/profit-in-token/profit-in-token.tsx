@@ -13,8 +13,13 @@ export const ProfitInToken = reatomComponent(({ ctx }) => {
 
   return (
     <p className="animate-fade-in flex gap-1 text-white">
-      <span className="text-2xl font-black">{potentialTokenReturnAmount.toFixed(2)}</span>
-      <span className="mt-2 text-base font-medium">{activeToken.name}</span>
+      <span data-testid="profit-in-token-amount" className="text-2xl font-black">
+        {potentialTokenReturnAmount.toFixed(2)}
+      </span>
+
+      <span className="mt-2 text-base font-medium" data-testid="profit-in-token-name">
+        {activeToken.name}
+      </span>
     </p>
   );
 }, "ProfitInToken");

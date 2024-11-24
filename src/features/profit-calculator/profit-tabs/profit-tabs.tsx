@@ -19,6 +19,7 @@ export const ProfitTabs = reatomComponent<IProfitTabsProps>(({ className, ctx })
           <TabsTrigger
             onClick={() => profitCalculatorModel.activeTabValueAtom(ctx, TABS_VALUES.SUPPLY)}
             value={TABS_VALUES.SUPPLY}
+            data-testid="supply-tab"
             className="w-full"
           >
             Supply
@@ -27,6 +28,7 @@ export const ProfitTabs = reatomComponent<IProfitTabsProps>(({ className, ctx })
           <TabsTrigger
             onClick={() => profitCalculatorModel.activeTabValueAtom(ctx, TABS_VALUES.BORROW)}
             value={TABS_VALUES.BORROW}
+            data-testid="borrow-tab"
             className="w-full"
           >
             Borrow

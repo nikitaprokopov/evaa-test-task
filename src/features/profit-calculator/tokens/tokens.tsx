@@ -13,14 +13,15 @@ const BUTTON_CLASSES = "h-14 font-medium text-lg rounded-sm items-center gap-[10
 
 interface ITokenProps {
   asset: (typeof SUPPORTED_ASSETS)[number];
+  dataTestId: string;
 }
 
-const Token = reatomComponent<ITokenProps>(({ asset, ctx }) => {
+const Token = reatomComponent<ITokenProps>(({ dataTestId, asset, ctx }) => {
   const profitCalculatorModel = useProfitCalculatorModel();
   const activeToken = ctx.spy(profitCalculatorModel.activeTokenAtom);
 
   return (
-    <div className="grid gap-[10px]">
+    <div className="grid gap-[10px]" data-testid={dataTestId}>
       <Button
         className={cn(BUTTON_CLASSES, asset.name !== activeToken.name && BUTTON_OUTLINE_CLASSES)}
         onClick={() => profitCalculatorModel.activeTokenAtom(ctx, asset)}
@@ -39,6 +40,9 @@ interface ITokensProps {
 }
 
 export function Tokens({ className }: ITokensProps) {
-  const tokens = SUPPORTED_ASSETS.map((asset) => <Token key={asset.name} asset={asset} />);
+  const tokens = SUPPORTED_ASSETS.map((asset) => (
+    <Token dataTestId={`token-${asset.name}`} key={asset.name} asset={asset} />
+  ));
+
   return <div className={cn("grid grid-cols-2 gap-x-[10px] gap-y-5", className)}>{tokens}</div>;
 }
