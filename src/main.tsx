@@ -6,12 +6,16 @@ import "./index.css";
 
 import { App } from "./app";
 
-await initTelegramApp();
+async function init() {
+  await initTelegramApp();
 
-const root = document.getElementById("root");
+  const root = document.getElementById("root");
 
-if (!root) {
-  throw new Error("root should exist");
+  if (!root) {
+    throw new Error("root should exist");
+  }
+
+  createRoot(root).render(<App />);
 }
 
-createRoot(root).render(<App />);
+void init();
