@@ -6,8 +6,8 @@ export function App() {
   return (
     <ReatomProvider>
       <EvaaModelProvider>
-        <div className="mx-auto h-screen max-w-lg">
-          <ProfitCalculator className="h-full" />
+        <div className="animate-fade-in h-dvh bg-master noise">
+          <ProfitCalculator className="mx-auto max-w-lg" />
         </div>
       </EvaaModelProvider>
     </ReatomProvider>

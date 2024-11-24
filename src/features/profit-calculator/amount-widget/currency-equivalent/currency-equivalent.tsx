@@ -16,7 +16,7 @@ export const CurrencyEquivalent = reatomComponent<ICurrencyEquivalentProps>(({ c
   const activeToken = ctx.spy(profitCalculatorModel.activeTokenAtom);
 
   if (convertedAmount === null) {
-    return <div className={cn("opacity-0 transition-opacity", className)} />;
+    return null;
   }
 
   const getText = () => {
@@ -28,7 +28,7 @@ export const CurrencyEquivalent = reatomComponent<ICurrencyEquivalentProps>(({ c
   };
 
   return (
-    <div className={cn("opacity-100 transition-opacity", className)}>
+    <div className={cn("animate-fade-in", className)}>
       <p className="pointer-events-none text-sm text-white opacity-50">{getText()}</p>
     </div>
   );

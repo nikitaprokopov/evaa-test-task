@@ -14,7 +14,7 @@ interface IProfitCalculatorProps {
 export function ProfitCalculator({ className }: IProfitCalculatorProps) {
   return (
     <ProfitCalculatorModelProvider>
-      <div className={cn("bg-master pt-5 noise", className)}>
+      <div className={cn("py-5", className)}>
         <div className="mb-10 px-5">
           <ProfitTabs className="mb-[30px]" />
           <Tokens className="mb-10" />

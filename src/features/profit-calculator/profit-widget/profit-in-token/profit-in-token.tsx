@@ -8,11 +8,11 @@ export const ProfitInToken = reatomComponent(({ ctx }) => {
   const potentialTokenReturnAmount = ctx.spy(profitCalculatorModel.potentialTokenReturnAmountAtom);
 
   if (potentialTokenReturnAmount === null) {
-    return <p className="opacity-0 transition-opacity" />;
+    return null;
   }
 
   return (
-    <p className="flex gap-1 text-white opacity-100 transition-opacity">
+    <p className="animate-fade-in flex gap-1 text-white">
       <span className="text-2xl font-black">{potentialTokenReturnAmount.toFixed(2)}</span>
       <span className="mt-2 text-base font-medium">{activeToken.name}</span>
     </p>

@@ -14,11 +14,11 @@ export const TokenApy = reatomComponent<ITokenApyProps>(({ assetId, ctx }) => {
   const masterData = ctx.spy(evaaModel.masterDataResource.dataAtom);
 
   if (!masterData) {
-    return <p className="h-[14px] opacity-0 transition-opacity" />;
+    return <div className="h-[14px]" />;
   }
 
   return (
-    <p className="flex h-[14px] items-center justify-center gap-2 text-sm opacity-100 transition-opacity">
+    <p className="animate-fade-in flex h-[14px] items-center justify-center gap-2 text-sm">
       <TokenApyText />
       <TokenApyNumber assetId={assetId} />
     </p>
