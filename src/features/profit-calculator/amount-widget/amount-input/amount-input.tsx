@@ -48,7 +48,7 @@ export const AmountInput = reatomComponent<IAmountInputProps>(({ inputRef, ctx }
 
   return (
     <Input
-      className="h-[88px] rounded-3xl pb-7 pl-6 pr-[168px] pt-[18px] text-[32px]"
+      className="h-[88px] rounded-3xl pb-7 pl-6 pr-44 pt-5 text-4xl"
       value={amountInputValue ? amountInputValue.toString() : ""}
       placeholder={getPlaceholder()}
       data-testid="amount-input"

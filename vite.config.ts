@@ -10,13 +10,12 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ["react-dom", "react"],
-          zod: ["zod"],
-
           telegram: ["@telegram-apps/sdk-react"],
 
-          other: ["class-variance-authority", "tailwind-merge", "clsx", "big.js"],
+          other: ["class-variance-authority", "tailwind-merge", "clsx", "big.js", "@react-hook/resize-observer"],
           radix: ["@radix-ui/react-slot", "@radix-ui/react-tabs"],
           reatom: ["@reatom/npm-react", "@reatom/framework"],
+          zod: ["zod"],
 
           evaa: ["@evaafi/sdk"],
           ton: ["@ton/ton"],
