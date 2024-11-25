@@ -84,7 +84,11 @@ export const AmountCurrency = reatomComponent<IAmountCurrencyProps>(({ inputRef,
   };
 
   return (
-    <p className="pointer-events-none absolute text-lg font-medium text-white" style={calculateStyle()}>
+    <p
+      className="pointer-events-none absolute text-lg font-medium text-white"
+      data-testid="ammount-currency"
+      style={calculateStyle()}
+    >
       {getText()}
     </p>
   );
