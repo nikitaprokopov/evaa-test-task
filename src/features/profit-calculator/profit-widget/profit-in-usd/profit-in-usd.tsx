@@ -12,7 +12,7 @@ export const ProfitInUsd = reatomComponent(({ ctx }) => {
 
   return (
     <p className="text-sm text-white opacity-50 transition-opacity" data-testid="profit-in-usd">
-      ~${potentialReturnAmountInUsd.toFixed(2)}
+      ~${potentialReturnAmountInUsd.round(2).toString()}
     </p>
   );
 }, "ProfitInUsd");

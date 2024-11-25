@@ -21,10 +21,10 @@ export const CurrencyEquivalent = reatomComponent<ICurrencyEquivalentProps>(({ c
 
   const getText = () => {
     if (isAmountInputValueInUsd) {
-      return `~${convertedAmount.toFixed(2)} ${activeToken.name}`;
+      return `~${convertedAmount.round(2).toString()} ${activeToken.name}`;
     }
 
-    return `~$${convertedAmount.toFixed(2)}`;
+    return `~$${convertedAmount.round(2).toString()}`;
   };
 
   return (

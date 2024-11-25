@@ -31,7 +31,7 @@ export function createModel({ evaaModel }: ICreateModel) {
   const activeTabValueAtom = reatomEnum([TABS_VALUES.SUPPLY, TABS_VALUES.BORROW], "activeTabValueAtom");
   const isAmountInputValueInUsdAtom = reatomBoolean(false, "isAmountInputValueInUsdAtom");
   const activeTokenAtom = atom(getActiveTokenAtomInitialValue(), "activeTokenAtom");
-  const amountInputValueAtom = reatomString("0.00", "amountInputValueAtom");
+  const amountInputValueAtom = reatomString("", "amountInputValueAtom");
 
   const convertedAmountAtom = atom((ctx) => {
     const masterData = ctx.spy(evaaModel.masterDataResource.dataAtom);
@@ -46,7 +46,7 @@ export function createModel({ evaaModel }: ICreateModel) {
 
     if (ctx.spy(isAmountInputValueInUsdAtom)) {
       const token = convertUsdToToken({
-        usd: new BigJs(amountInputValue),
+        usd: new BigJs(amountInputValue || 0),
         assetId: activeToken.assetId,
         masterData,
         priceData,
@@ -56,7 +56,7 @@ export function createModel({ evaaModel }: ICreateModel) {
     }
 
     const usd = convertTokenToUsd({
-      tokenValue: new BigJs(amountInputValue),
+      tokenValue: new BigJs(amountInputValue || 0),
       assetId: activeToken.assetId,
       masterData,
       priceData,
@@ -79,10 +79,10 @@ export function createModel({ evaaModel }: ICreateModel) {
 
     switch (activeTabValue) {
       case TABS_VALUES.SUPPLY:
-        return assetData.supplyApy;
+        return new BigJs(assetData.supplyApy);
 
       case TABS_VALUES.BORROW:
-        return assetData.borrowApy;
+        return new BigJs(assetData.borrowApy);
 
       default:
         exhaustiveCheck(activeTabValue);
@@ -92,15 +92,15 @@ export function createModel({ evaaModel }: ICreateModel) {
   const potentialTokenReturnAmountAtom = atom((ctx) => {
     const apyFromActiveTabAndToken = ctx.spy(apyFromActiveTabAndTokenAtom);
 
-    if (apyFromActiveTabAndToken === null) {
+    if (!apyFromActiveTabAndToken) {
       return null;
     }
 
     const convertedAmount = ctx.spy(convertedAmountAtom);
 
-    if (ctx.spy(isAmountInputValueInUsdAtom) && convertedAmount !== null) {
+    if (ctx.spy(isAmountInputValueInUsdAtom) && convertedAmount) {
       return getTokenMonthlyPotentialReturn({
-        apy: new BigJs(apyFromActiveTabAndToken),
+        apy: apyFromActiveTabAndToken,
         amount: convertedAmount,
       });
     }
@@ -108,8 +108,8 @@ export function createModel({ evaaModel }: ICreateModel) {
     const amountInputValue = ctx.spy(amountInputValueAtom);
 
     return getTokenMonthlyPotentialReturn({
-      apy: new BigJs(apyFromActiveTabAndToken),
-      amount: new BigJs(amountInputValue),
+      amount: new BigJs(amountInputValue || 0),
+      apy: apyFromActiveTabAndToken,
     });
   }, "potentialTokenReturnAmountAtom");
 
@@ -118,7 +118,7 @@ export function createModel({ evaaModel }: ICreateModel) {
     const masterData = ctx.spy(evaaModel.masterDataResource.dataAtom);
     const priceData = ctx.spy(evaaModel.priceDataResource.dataAtom);
 
-    if (!masterData || !priceData || potentialTokenReturnAmount === null) {
+    if (!masterData || !priceData || !potentialTokenReturnAmount) {
       return null;
     }
 
@@ -133,8 +133,8 @@ export function createModel({ evaaModel }: ICreateModel) {
   const onCurrencyToggleAction = action((ctx) => {
     const convertedAmount = ctx.get(convertedAmountAtom);
 
-    if (convertedAmount !== null) {
-      amountInputValueAtom(ctx, convertedAmount.toFixed(2));
+    if (convertedAmount && ctx.get(amountInputValueAtom) !== "") {
+      amountInputValueAtom(ctx, convertedAmount.round(2).toString());
     }
 
     isAmountInputValueInUsdAtom.toggle(ctx);

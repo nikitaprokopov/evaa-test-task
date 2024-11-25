@@ -1,10 +1,15 @@
 import { reatomComponent } from "@reatom/npm-react";
+import { RefObject } from "react";
 
 import { Input } from "~/components/input";
 
 import { useProfitCalculatorModel } from "../../model/profit-calculator-model";
 
-export const AmountInput = reatomComponent(({ ctx }) => {
+interface IAmountInputProps {
+  inputRef: RefObject<HTMLInputElement>;
+}
+
+export const AmountInput = reatomComponent<IAmountInputProps>(({ inputRef, ctx }) => {
   const profitCalculatorModel = useProfitCalculatorModel();
 
   const isAmountInputValueInUsd = ctx.spy(profitCalculatorModel.isAmountInputValueInUsdAtom);
@@ -20,6 +25,11 @@ export const AmountInput = reatomComponent(({ ctx }) => {
     // Prevent the first character from being a dot
     if (inputValue.startsWith(".")) {
       inputValue = inputValue.slice(1); // Remove the leading dot
+    }
+
+    if (inputValue === "") {
+      profitCalculatorModel.amountInputValueAtom(ctx, inputValue);
+      return;
     }
 
     // Allow only digits, one dot, and digits after the dot
@@ -38,11 +48,12 @@ export const AmountInput = reatomComponent(({ ctx }) => {
 
   return (
     <Input
-      className="h-[88px] rounded-3xl px-6 pb-7 pr-32 pt-3 text-4xl"
+      className="h-[88px] rounded-3xl pb-7 pl-6 pr-[168px] pt-[18px] text-[32px]"
+      value={amountInputValue ? amountInputValue.toString() : ""}
       placeholder={getPlaceholder()}
       data-testid="amount-input"
-      value={amountInputValue}
       onChange={handleChange}
+      ref={inputRef}
     />
   );
 }, "AmountInput");

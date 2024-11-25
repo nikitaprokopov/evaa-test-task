@@ -14,7 +14,7 @@ export const ProfitInToken = reatomComponent(({ ctx }) => {
   return (
     <p className="animate-fade-in flex gap-1 text-white">
       <span data-testid="profit-in-token-amount" className="text-2xl font-black">
-        {potentialTokenReturnAmount.toFixed(2)}
+        {potentialTokenReturnAmount.round(2).toFixed()}
       </span>
 
       <span className="mt-2 text-base font-medium" data-testid="profit-in-token-name">
