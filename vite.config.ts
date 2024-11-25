@@ -14,7 +14,7 @@ export default defineConfig({
 
           telegram: ["@telegram-apps/sdk-react"],
 
-          other: ["class-variance-authority", "tailwind-merge", "clsx"],
+          other: ["class-variance-authority", "tailwind-merge", "clsx", "big.js"],
           radix: ["@radix-ui/react-slot", "@radix-ui/react-tabs"],
           reatom: ["@reatom/npm-react", "@reatom/framework"],
 

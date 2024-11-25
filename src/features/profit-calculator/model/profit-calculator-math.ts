@@ -1,4 +1,5 @@
 import { MasterData, PriceData } from "@evaafi/sdk";
+import BigJs from "big.js";
 
 interface IGetPriceOfOneTonInUsdProps {
   masterData: MasterData;
@@ -18,11 +19,11 @@ const getPriceOfOneTokenInUsd = ({ masterData, priceData, assetId }: IGetPriceOf
     return null;
   }
 
-  return Number(tokenPrice) / 10 ** Number(assetConfig.decimals);
+  return new BigJs(Number(tokenPrice)).div(new BigJs(10).pow(Number(assetConfig.decimals)));
 };
 
 interface IConvertTokenToUsd extends IGetPriceOfOneTonInUsdProps {
-  tokenValue: string;
+  tokenValue: BigJs.Big;
 }
 
 export const convertTokenToUsd = ({ masterData, tokenValue, priceData, assetId }: IConvertTokenToUsd) => {
@@ -32,11 +33,11 @@ export const convertTokenToUsd = ({ masterData, tokenValue, priceData, assetId }
     return null;
   }
 
-  return Number(tokenValue) * priceOfOneToken;
+  return tokenValue.times(priceOfOneToken);
 };
 
 interface IConvertUsdToToken extends IGetPriceOfOneTonInUsdProps {
-  usd: string;
+  usd: BigJs.Big;
 }
 
 export const convertUsdToToken = ({ masterData, priceData, assetId, usd }: IConvertUsdToToken) => {
@@ -46,14 +47,14 @@ export const convertUsdToToken = ({ masterData, priceData, assetId, usd }: IConv
     return null;
   }
 
-  return Number(usd) / priceOfOneToken;
+  return usd.div(priceOfOneToken);
 };
 
 interface IGetMonthlyPotentialReturn {
-  amount: number;
-  apy: number;
+  amount: BigJs.Big;
+  apy: BigJs.Big;
 }
 
 export const getTokenMonthlyPotentialReturn = ({ amount, apy }: IGetMonthlyPotentialReturn) => {
-  return amount * (1 + apy / 12);
+  return amount.times(apy.div(12).plus(1));
 };

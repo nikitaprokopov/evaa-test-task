@@ -1,4 +1,5 @@
 import { reatomComponent } from "@reatom/npm-react";
+import BigJs from "big.js";
 
 import { useProfitCalculatorModel, TABS_VALUES } from "~/features/profit-calculator/model/profit-calculator-model";
 import { useEvaaModel } from "~/models/evaa-model/evaa-model";
@@ -9,7 +10,7 @@ interface ITokenApyNumberProps {
 }
 
 function roundTo2DecimalPlaces(apy: number): string {
-  const numberPercent = apy * 100;
+  const numberPercent = new BigJs(apy).times(100);
   return `${numberPercent.toFixed(2)}%`;
 }
 

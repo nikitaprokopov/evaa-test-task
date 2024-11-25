@@ -1,5 +1,6 @@
 import { reatomBoolean, reatomString, reatomEnum, action, atom } from "@reatom/framework";
 import { createContext, useContext } from "react";
+import BigJs from "big.js";
 
 import { useEvaaModel } from "~/models/evaa-model/evaa-model";
 import { exhaustiveCheck } from "~/utils/exhaustive-check";
@@ -30,7 +31,7 @@ export function createModel({ evaaModel }: ICreateModel) {
   const activeTabValueAtom = reatomEnum([TABS_VALUES.SUPPLY, TABS_VALUES.BORROW], "activeTabValueAtom");
   const isAmountInputValueInUsdAtom = reatomBoolean(false, "isAmountInputValueInUsdAtom");
   const activeTokenAtom = atom(getActiveTokenAtomInitialValue(), "activeTokenAtom");
-  const amountInputValueAtom = reatomString("", "amountInputValueAtom");
+  const amountInputValueAtom = reatomString("0.00", "amountInputValueAtom");
 
   const convertedAmountAtom = atom((ctx) => {
     const masterData = ctx.spy(evaaModel.masterDataResource.dataAtom);
@@ -45,8 +46,8 @@ export function createModel({ evaaModel }: ICreateModel) {
 
     if (ctx.spy(isAmountInputValueInUsdAtom)) {
       const token = convertUsdToToken({
+        usd: new BigJs(amountInputValue),
         assetId: activeToken.assetId,
-        usd: amountInputValue,
         masterData,
         priceData,
       });
@@ -55,8 +56,8 @@ export function createModel({ evaaModel }: ICreateModel) {
     }
 
     const usd = convertTokenToUsd({
+      tokenValue: new BigJs(amountInputValue),
       assetId: activeToken.assetId,
-      tokenValue: amountInputValue,
       masterData,
       priceData,
     });
@@ -90,23 +91,25 @@ export function createModel({ evaaModel }: ICreateModel) {
 
   const potentialTokenReturnAmountAtom = atom((ctx) => {
     const apyFromActiveTabAndToken = ctx.spy(apyFromActiveTabAndTokenAtom);
-    const amountInputValue = ctx.spy(amountInputValueAtom);
-    const convertedAmount = ctx.spy(convertedAmountAtom);
 
     if (apyFromActiveTabAndToken === null) {
       return null;
     }
 
-    if (ctx.spy(isAmountInputValueInUsdAtom) && convertedAmount) {
+    const convertedAmount = ctx.spy(convertedAmountAtom);
+
+    if (ctx.spy(isAmountInputValueInUsdAtom) && convertedAmount !== null) {
       return getTokenMonthlyPotentialReturn({
-        apy: apyFromActiveTabAndToken,
+        apy: new BigJs(apyFromActiveTabAndToken),
         amount: convertedAmount,
       });
     }
 
+    const amountInputValue = ctx.spy(amountInputValueAtom);
+
     return getTokenMonthlyPotentialReturn({
-      amount: Number(amountInputValue),
-      apy: apyFromActiveTabAndToken,
+      apy: new BigJs(apyFromActiveTabAndToken),
+      amount: new BigJs(amountInputValue),
     });
   }, "potentialTokenReturnAmountAtom");
 
@@ -119,21 +122,18 @@ export function createModel({ evaaModel }: ICreateModel) {
       return null;
     }
 
-    const usd = convertTokenToUsd({
-      tokenValue: String(potentialTokenReturnAmount),
+    return convertTokenToUsd({
       assetId: ctx.spy(activeTokenAtom).assetId,
+      tokenValue: potentialTokenReturnAmount,
       masterData,
       priceData,
     });
-
-    return usd;
   }, "potentialReturnAmountInUsdAtom");
 
   const onCurrencyToggleAction = action((ctx) => {
-    const amountInputValue = ctx.get(amountInputValueAtom);
     const convertedAmount = ctx.get(convertedAmountAtom);
 
-    if (convertedAmount !== null && amountInputValue) {
+    if (convertedAmount !== null) {
       amountInputValueAtom(ctx, convertedAmount.toFixed(2));
     }
 
