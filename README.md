@@ -2,7 +2,7 @@
 
 - [Web version of profit calculator](https://evaa-test-task.netlify.app/)
 - [Telegram app](https://t.me/evaa_tma_bot/evaa_app)
-- [Telegram bot](t.me/evaa_tma_bot)
+- [Telegram bot](https://t.me/evaa_tma_bot)
 
 ## Prerequisites
 
