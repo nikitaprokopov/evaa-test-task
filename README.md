@@ -1,9 +1,3 @@
-# EVAA profit calculator
-
-- [Web version of profit calculator](https://evaa-test-task.netlify.app/)
-- [Telegram app](https://t.me/evaa_tma_bot/evaa_app)
-- [Telegram bot](https://t.me/evaa_tma_bot)
-
 ## Prerequisites
 
 Before running the frontend, ensure you have the following installed:
