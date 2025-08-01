@@ -1,3 +1,6 @@
+## Link to the app
+https://evaa-test-task.netlify.app
+
 ## Prerequisites
 
 Before running the frontend, ensure you have the following installed:
